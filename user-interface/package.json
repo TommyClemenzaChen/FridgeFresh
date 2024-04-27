@@ -12,10 +12,12 @@
     "expo": "^49.0.23",
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
-    "react-native": "0.72.10"
+    "react-native": "0.72.10",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@expo/ngrok": "^4.1.0"
   },
   "private": true
 }
