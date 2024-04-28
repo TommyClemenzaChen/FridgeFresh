@@ -40,11 +40,11 @@ const SignUp = () => {
 
   return (
     <View style={styles.root}>
-      <Text style={{ fontSize: 25, fontFamily: "American Typewriter" }}>
-        {" "}
-        FridgeFresh
-      </Text>
-
+      <View style={styles.titleContainer}>
+        <Text style={styles.welcome}>Welcome to </Text>
+        <Text style={styles.fridgeTitle}>Fridge</Text>
+        <Text style={styles.freshTitle}>Fresh!</Text>
+      </View>
       <TextInput
         style={styles.input}
         placeholder="Enter your email"
