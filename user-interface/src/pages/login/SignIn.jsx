@@ -54,7 +54,7 @@ const SignUp = () => {
 			/>
 			<View style={styles.signInContainer}>
 				<TouchableOpacity onPress={handleSignIn} style={styles.button}>
-					<Text style={styles.signInButtonText}>Sign Up</Text>
+					<Text style={styles.signInButtonText}>Sign In</Text>
 					<Ionicons name="arrow-forward" size={40} color="white" />
 				</TouchableOpacity>
 			</View>

@@ -94,16 +94,26 @@ const Homepage = () => {
 				<TouchableOpacity
 					onPress={() => navigation.navigate('Helppage')}
 					style={styles.helpButton}>
-					<Text style={styles.buttonText}>Help</Text>
+					<Text style={styles.buttonText}>❔</Text>
 				</TouchableOpacity>
 			</View>
+			<View style={styles.bottomContainer}>
 			<TouchableOpacity
-				onPress={() => setModalVisible(true)}
-				style={styles.newItemButton}>
-				<Text style={styles.buttonText}>Add New Food Item</Text>
+				onPress={() => {
+					console.log('Add new food item button pressed');
+					setModalVisible(true);
+				}}
+				style={styles.newItemButton}
+				>
+				<Text style={styles.buttonText}>+</Text>
 			</TouchableOpacity>
-
-			<Modal
+				{/* Button for camera */}
+				<TouchableOpacity
+					onPress={() => console.log('Camera button pressed')}
+					style={styles.cameraButton}>
+					<Text style={styles.buttonText}>📸</Text>
+				</TouchableOpacity>
+				<Modal
 				animationType='slide'
 				transparent={true}
 				visible={modalVisible}
@@ -139,7 +149,7 @@ const Homepage = () => {
 								? styles.pickerButtons
 								: styles.inactiveButton
 						}>
-						<Text style={styles.buttonText}>Set Fridge Expiry Date</Text>
+						<Text style={styles.buttonText}>🧊Fridge</Text>
 					</TouchableOpacity>
 					{isDatePickerShow === 'expire_time_fridge' && (
 						<View style={styles.datePicker}>
@@ -161,7 +171,7 @@ const Homepage = () => {
 								? styles.pickerButtons
 								: styles.inactiveButton
 						}>
-						<Text style={styles.buttonText}>Set Freezer Expiry Date</Text>
+						<Text style={styles.buttonText}>❄️Freezer</Text>
 					</TouchableOpacity>
 					{isDatePickerShow === 'expire_time_freezer' && (
 						<View style={styles.datePicker}>
@@ -177,7 +187,7 @@ const Homepage = () => {
 						</View>
 					)}
 					<TouchableOpacity onPress={handleSubmit} style={styles.closeButton}>
-						<Text style={styles.buttonText}>Submit Food Item</Text>
+						<Text style={styles.buttonText}>Submit</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() => setModalVisible(false)}
@@ -186,8 +196,11 @@ const Homepage = () => {
 					</TouchableOpacity>
 				</View>
 			</Modal>
-		</View>
-	);
+			
+			</View>			
+			
+    </View>
+  );
 };
 
 export default Homepage;
