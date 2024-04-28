@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     borderRadius: 50, // Make it circular
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 20, // Add margin between buttons
+    marginLeft: 200, // Add margin between buttons
   },
 });
 
