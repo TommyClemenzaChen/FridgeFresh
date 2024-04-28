@@ -11,6 +11,7 @@
   "dependencies": {
     "expo": "^49.0.23",
     "expo-status-bar": "~1.6.0",
+    "firebase": "^10.11.1",
     "react": "18.2.0",
     "react-native": "0.72.10",
     "yarn": "^1.22.22"
