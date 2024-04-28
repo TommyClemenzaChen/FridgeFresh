@@ -19,11 +19,12 @@ const Navigator = () => {
           name="Homepage" 
           component={Homepage} 
           options={({ navigation }) => ({
-            headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate('Helppage')}>
-                <Text style={{ marginRight: 10, color: 'blue' }}>Help</Text>
-              </TouchableOpacity>
-            ),
+            headerShown: false,
+            //headerRight: () => (
+              //<TouchableOpacity onPress={() => navigation.navigate('Helppage')}>
+                //<Text style={{ marginRight: 10, color: 'blue' }}>Help</Text>
+              //</TouchableOpacity>
+            //),
           })}
         />
         <Stack.Screen name="Helppage" component={Helppage} />

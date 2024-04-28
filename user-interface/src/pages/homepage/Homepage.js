@@ -76,6 +76,13 @@ const Homepage = () => {
 
 	return (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+			<View style={styles.helpButtonContainer}>
+				<TouchableOpacity onPress={() => navigation.navigate('Helppage')}
+					style={styles.helpButton}
+				>
+					<Text style={styles.buttonText}>Help</Text>
+      			</TouchableOpacity>
+			</View>
 			<TouchableOpacity onPress={() => setModalVisible(true)} 
 				style={styles.newItemButton}
 			>

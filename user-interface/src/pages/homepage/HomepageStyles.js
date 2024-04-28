@@ -25,6 +25,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
+  helpButtonContainer: {
+    position: 'absolute',
+    top: 50, // Adjust the top margin as needed
+    right: 20, // Adjust the right margin as needed
+ },
+  helpButton: {
+    backgroundColor: 'red', // Red background
+    borderRadius: 25, // Rounded corners
+    padding: 10, // Padding around the text
+    justifyContent: 'center', // Center the text vertically
+    alignItems: 'center',
+  },
   newItemButton: {
     backgroundColor: '#231651',
     padding: 10,
