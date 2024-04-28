@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+<<<<<<< HEAD
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF', // White background
@@ -49,6 +50,35 @@ const styles = StyleSheet.create({
     color: '#2374AB', // Darker turquoise color
     marginLeft: 5,
   },
+=======
+    root: {
+      alignItems: "center",
+      padding: 20,
+    },
+    logo: {
+      width: "70%",
+      maxWidth: 300,
+  
+      height: 100,
+    },
+    text: {
+      color: "gray",
+      marginVertical: 10,
+    },
+    link: {
+      //darker yellow color
+      color: "#FFD700",
+    },
+    input: {
+      width: "100%",
+      height: 40,
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 5,
+      marginBottom: 10,
+      paddingHorizontal: 10,
+    },
+>>>>>>> a9a19a14efa9d1f1f9b87ac2ee625a1937dfc5d5
 });
 
 export default styles;

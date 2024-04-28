@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../services/firebase';
-import signUpStyles from './SignUpStyles';
+import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import React from "react";
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { auth } from "../../services/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import styles from './SignUpStyles';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');

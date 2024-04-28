@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { auth } from "../../services/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import styles from "./LoginStyles";
+import styles from './SignInStyles';
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
