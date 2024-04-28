@@ -7,14 +7,16 @@ import {
 	serverTimestamp,
 } from 'firebase/firestore';
 import { db } from './firebase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddFoodToUser = () => {
-	const [userId] = useState('YP4sVIViUjHtho8JKtDO'); // Replace with dynamic userId when applicable
+	const [userId] = useState('YP4sVIViUjHtho8JKtDO');
 	const [food, setFood] = useState({
 		name: '',
 		expire_time_fridge: '',
 		expire_time_freezer: '',
 		calories: 0,
+		imageUri: '',
 	});
 
 	const handleInputChange = (e) => {
@@ -22,31 +24,32 @@ const AddFoodToUser = () => {
 		setFood({ ...food, [name]: value });
 	};
 
+	const saveImageUri = async (uri) => {
+		try {
+			await AsyncStorage.setItem('imageUri', uri);
+			console.log('Image URI saved successfully.');
+		} catch (error) {
+			console.error('Error saving image URI:', error);
+		}
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			// Document reference for the user
 			const userDocRef = doc(db, 'users', userId);
-
-			// Set the user profile, if necessary. This overwrites the user's document.
-			// Use `updateDoc` if you want to update the profile without overwriting.
 			await setDoc(
 				userDocRef,
-				{
-					profile: { name: 'Jane Doe', email: 'janedoe@example.com' },
-				},
+				{ profile: { name: 'Jane Doe', email: 'janedoe@example.com' } },
 				{ merge: true }
-			); // `merge: true` to not overwrite the entire document
+			);
 
-			// Collection reference for the foods subcollection of the user
 			const foodsColRef = collection(userDocRef, 'foods');
-
-			// Add a new document to the 'foods' collection
 			await addDoc(foodsColRef, {
 				name: food.name,
-				expire_time_fridge: serverTimestamp(), // Use serverTimestamp for consistency
+				expire_time_fridge: serverTimestamp(),
 				expire_time_freezer: serverTimestamp(),
 				calories: parseInt(food.calories, 10),
+				imageUri: food.imageUri, // Add this line to include the imageUri in the Firestore document
 			});
 
 			console.log('Food item added to user!');
@@ -76,12 +79,18 @@ const AddFoodToUser = () => {
 				value={food.expire_time_freezer}
 				onChange={handleInputChange}
 			/>
-
 			<input
 				type='number'
 				name='calories'
 				placeholder='Calories'
 				value={food.calories}
+				onChange={handleInputChange}
+			/>
+			<input
+				type='text'
+				name='imageUri'
+				placeholder='Image URI'
+				value={food.imageUri}
 				onChange={handleInputChange}
 			/>
 			<button type='submit'>Add Food Item</button>
