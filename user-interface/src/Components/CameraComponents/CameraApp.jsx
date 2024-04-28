@@ -1,110 +1,116 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button, Image } from "react-native";
-import { Camera } from "expo-camera";
-import axios from "axios";
-import * as FS from "expo-file-system";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { Camera } from 'expo-camera';
+import axios from 'axios';
+import {
+	initializeAuth,
+	getReactNativePersistence,
+	onAuthStateChanged,
+} from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { firebaseApp } from './firebase'; // Ensure this path is correct
+
+// Initialize Firebase Auth with AsyncStorage persistence
+const auth = initializeAuth(firebaseApp, {
+	persistence: getReactNativePersistence(AsyncStorage),
+});
 
 export default function App() {
-  const [hasCameraPermission, setHasCameraPermission] = useState(null);
-  const [camera, setCamera] = useState(null);
-  const [image, setImage] = useState(null);
-  // useEffect(() => {
-  //     (async () => {
-  //       const cameraStatus = await Camera.requestPermissionsAsync();
-  //       setHasCameraPermission(cameraStatus.status === 'granted');
-  // })();
-  //   }, []);
-  const takePicture = async () => {
-    if (camera) {
-      const data = await camera.takePictureAsync(null);
-      setImage(data);
-    }
-  };
+	const [hasCameraPermission, setHasCameraPermission] = useState(null);
+	const [camera, setCamera] = useState(null);
+	const [image, setImage] = useState(null);
 
-  const saveImage = async () => {
-    console.log("Saving image...");
-  
-    while (image === null) {
-      await new Promise((resolve) => setTimeout(resolve, 1)); // Wait for 1 second (adjust as needed)
-      console.log("Waiting for image to be taken...");
-    }
-    try {
-      const apiUrl = "http://localhost:5000/predict";
+	useEffect(() => {
+		(async () => {
+			const cameraStatus = await Camera.requestPermissionsAsync();
+			setHasCameraPermission(cameraStatus.status === 'granted');
 
-      console.log(image);
-      const api = axios.create({
-        baseURL: 'http://127.0.0.1:5000'
-      });
-      const response = await api.post('/predict', {image: image.uri})
+			// Listen for authentication state to change.
+			const unsubscribe = onAuthStateChanged(auth, (user) => {
+				if (user) {
+					// User is signed in
+					console.log('We are authenticated now!');
+				}
+				// ...
+			});
 
-      // let response = await FS.uploadAsync(apiUrl, image.uri, {
-      //   headers: {
-      //     "content-type": "",
-      //   },
-      //   httpMethod: "POST",
-      //   uploadType: FS.FileSystemUploadType.BINARY_CONTENT,
-      // });
-      // // axios 
+			// Cleanup subscription on unmount
+			return unsubscribe;
+		})();
+	}, []);
 
-      // let response = await axios.post(apiUrl, {
-      //   image: image.uri,
-      // });
+	const takePicture = async () => {
+		if (camera) {
+			const data = await camera.takePictureAsync(null);
+			setImage(data);
+		}
+	};
 
-      console.log("Upload success:", response.data);
-    } catch (error) {
-      console.log("Error uploading image");
-      console.log(error);
-      console.log(image);
-    }
-  };
+	const saveImage = async () => {
+		if (!image) {
+			console.log('No image to save');
+			return;
+		}
 
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.cameraContainer}>
-        <Camera
-          ref={(ref) => setCamera(ref)}
-          style={styles.fixedRatio}
-          ratio={"1:1"}
-        />
-      </View>
-      {image && <Image source={{ uri: image.uri }} style={{ flex: 1 }} />}
+		console.log('Saving image...');
+		const apiUrl = 'http://127.0.0.1:5000/predict'; // Replace <your-local-ip> with the IP address of your server
 
-      <Button
-        style={styles.pictureButton}
-        title="Take Picture"
-        onPress={() => takePicture()}
-      />
-      {image && (
-        <Button
-          style={styles.saveImageButton}
-          title="Save Picture"
-          onPress={saveImage}
-        />
-      )}
-    </View>
-  );
+		try {
+			const formData = new FormData();
+			formData.append('image', {
+				uri: image.uri,
+				type: 'image/jpeg', // Or the correct mime type of your image
+				name: 'photo.jpg',
+			});
+
+			const response = await axios.post(apiUrl, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			});
+
+			console.log('Upload success:', response.data);
+		} catch (error) {
+			console.log('Error uploading image:', error);
+		}
+	};
+
+	return (
+		<View style={styles.container}>
+			<View style={styles.cameraContainer}>
+				<Camera ref={(ref) => setCamera(ref)} style={styles.camera} />
+			</View>
+			<Button title='Take Picture' onPress={takePicture} />
+			{image && (
+				<Image source={{ uri: image.uri }} style={styles.previewImage} />
+			)}
+			{image && <Button title='Save Picture' onPress={saveImage} />}
+		</View>
+	);
 }
-const styles = StyleSheet.create({
-  cameraContainer: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  fixedRatio: {
-    flex: 1,
-  },
-  saveImageButton: {
-    backgroundColor: "blue",
-    borderRadius: 5,
-    padding: 10,
-    margin: 40,
-    width: 100,
-    alignSelf: "center",
-  },
-  pictureButton: {
-    color: "green",
-    borderRadius: 5,
-    padding: 10,
 
-    alignSelf: "center",
-  },
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		backgroundColor: '#fff',
+	},
+	cameraContainer: {
+		flex: 1,
+		flexDirection: 'row',
+	},
+	camera: {
+		flex: 1,
+		aspectRatio: 1,
+	},
+	previewImage: {
+		flex: 1,
+		justifyContent: 'flex-end',
+		alignItems: 'center',
+	},
+	buttonContainer: {
+		flex: 0.1,
+		alignSelf: 'flex-end',
+		alignItems: 'center',
+	},
 });
