@@ -15,6 +15,8 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { db } from './firebase';
 import styles from './HomepageStyles';
 import { useNavigation } from '@react-navigation/native';
+import ViewFoods from '../view/ViewFoods';
+
 
 const Homepage = () => {
 	const navigation = useNavigation();
@@ -66,6 +68,10 @@ const Homepage = () => {
 		}
 	};
 
+	const handleCameraPage = () => {
+		navigation.navigate('CameraPage');
+	};
+
 	const handleSubmit = async () => {
 		if (!currentUser) {
 			console.error('No user is signed in.');
@@ -107,9 +113,17 @@ const Homepage = () => {
 				>
 				<Text style={styles.buttonText}>+</Text>
 			</TouchableOpacity>
-				{/* Button for camera */}
+			<TouchableOpacity
+				onPress={() => {
+					navigation.navigate('ViewItems');
+				}}
+				style={styles.newItemButton}
+				>
+				<Text style={styles.buttonText}>view</Text>
+			</TouchableOpacity>
+				
 				<TouchableOpacity
-					onPress={() => console.log('Camera button pressed')}
+					onPress={handleCameraPage}
 					style={styles.cameraButton}>
 					<Text style={styles.buttonText}>📸</Text>
 				</TouchableOpacity>

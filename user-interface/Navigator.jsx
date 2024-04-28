@@ -6,6 +6,8 @@ import Homepage from "./src/pages/homepage/Homepage";
 import SignUp from "./src/pages/SignUp/SignUp";
 import SignIn from "./src/pages/login/SignIn";
 import Helppage from "./src/pages/help/Helppage";
+import CameraApp from "./src/pages/camera/Camera";
+import ViewFoods from "./src/pages/view/ViewFoods";
 
 const Stack = createStackNavigator();
 
@@ -35,7 +37,9 @@ const Navigator = () => {
             //),
           })}
         />
+        <Stack.Screen name="CameraPage" component={CameraApp} />
         <Stack.Screen name="Helppage" component={Helppage} />
+        <Stack.Screen name="ViewItems" component={ViewFoods} />
       </Stack.Navigator>
     </NavigationContainer>
   );
