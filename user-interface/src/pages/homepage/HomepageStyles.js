@@ -30,9 +30,20 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
+  pickerButtons: {
+    backgroundColor: 'gray',
+    padding: 10,
+    width: '60%',
+    left: '20%',
+  },
   buttonText: { 
     color: 'white',
     fontFamily: 'PlayfairDisplay_700Bold',
+  },
+  dateSelectors: {
+    flexDirection: 'row',
+    justifyContent: 'center', // Center the picker horizontally
+    alignItems: 'center',
   },
   navbar: {
     flexDirection: 'row',
@@ -42,14 +53,18 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   // Styles for the modal
-  modalContainer: {
+  datePicker: {
+    position: 'absolute',
+    top: '122%',
+    left: '46%',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: 'white',
-    padding: 20,
+    backgroundColor: '#4DCCBD',
+    padding: 60,
+    paddingTop: 60,
     borderRadius: 10,
     elevation: 5,
   },
@@ -70,6 +85,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 10,
+  },
+  modalTypedInputs: {
+    borderWidth: 2,
+    borderColor: '#2374AB',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    width: '100%',
+    color: 'black',
   },
 });
 

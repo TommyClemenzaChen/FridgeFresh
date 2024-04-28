@@ -85,50 +85,61 @@ const Homepage = () => {
 				transparent={true}
 				visible={modalVisible}
 				onRequestClose={() => setModalVisible(!modalVisible)}>
-				<View style={{ marginTop: 50, padding: 20, backgroundColor: 'white' }}>
+				<View style={styles.modalContent}>
 					<TextInput
 						placeholder='Food Name'
+						placeholderTextColor='gray'
 						value={food.name}
 						onChangeText={(text) => handleInputChange('name', text)}
+						style={styles.modalTypedInputs}
 					/>
 					<TextInput
 						placeholder='Calories'
+						placeholderTextColor='gray'
 						keyboardType='numeric'
 						value={food.calories}
 						onChangeText={(text) => handleInputChange('calories', text)}
+						style={styles.modalTypedInputs}
 					/>
 					<TextInput
 						placeholder='Image URI'
+						placeholderTextColor='gray'
 						value={food.imageUri}
 						onChangeText={(text) => handleInputChange('imageUri', text)}
+						style={styles.modalTypedInputs}
 					/>
-					<Button
+					<Button onPress={() => showDatePicker('expire_time_fridge')}
 						title='Set Fridge Expiry Date'
-						onPress={() => showDatePicker('expire_time_fridge')}
 					/>
 					{isDatePickerShow === 'expire_time_fridge' && (
-						<DateTimePicker
-							value={food.expire_time_fridge}
-							mode='date'
-							display='default'
-							onChange={(event, date) =>
-								onDateChange(date, 'expire_time_fridge')
-							}
-						/>
+						<View style={styles.datePicker}>
+							<DateTimePicker
+								value={food.expire_time_fridge}
+								mode='date'
+								display='default'
+								onChange={(event, date) =>
+									onDateChange(date, 'expire_time_fridge')
+								}
+								style={styles.dateSelectors}
+							/>
+						</View>
 					)}
 					<Button
 						title='Set Freezer Expiry Date'
 						onPress={() => showDatePicker('expire_time_freezer')}
 					/>
 					{isDatePickerShow === 'expire_time_freezer' && (
-						<DateTimePicker
-							value={food.expire_time_freezer}
-							mode='date'
-							display='default'
-							onChange={(event, date) =>
-								onDateChange(date, 'expire_time_freezer')
-							}
-						/>
+						<View style={styles.datePicker}>
+							<DateTimePicker
+								value={food.expire_time_freezer}
+								mode='date'
+								display='default'
+								onChange={(event, date) =>
+									onDateChange(date, 'expire_time_freezer')
+								}
+								style={styles.dateSelectors}
+							/>
+						</View>
 					)}
 					<Button title='Submit Food Item' onPress={handleSubmit} />
 					<Button title='Close' onPress={() => setModalVisible(false)} />
