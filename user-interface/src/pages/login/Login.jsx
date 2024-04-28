@@ -2,42 +2,53 @@ import React from 'react';
 import { useState } from 'react';
 import {View, Alert, Button, SafeAreaView, StyleSheet, TextInput} from 'react-native';
 import styles from './LoginStyles';
+import { performSignIn, performSignUp } from './Authenticator';
+import { useNavigation } from '@react-navigation/native';
 
 const Login = () => {
   // Login Values
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [existingUser, setExistingUser] = useState(false);
-
-  // Dummy Test Logins
-  const users = ['alice', 'bob', 'carol'];
-  const passwords = ['alicePass', 'bobPass', 'carolPass'];
+  const [newSignUp, setNewSignUp] = useState(false);
+  const [successfulSignUp, setSuccessfulSignUp] = useState('');
+  const nav = useNavigation();
 
   // Handle the login
-  const handleLogin = () => {
-    const userIndex = users.indexOf(username);
-    if (userIndex !== -1 && passwords[userIndex] === password) {
-      Alert.alert('Success', 'You have successfully logged in!');
+  const handleLogin = async () => {
+    const loginSucesss = await performSignIn(email, password);
+    
+    if (loginSucesss) {
+      nav.navigate('Homepage');
     } else {
-      Alert.alert('Failure', 'Your user name and/or password are not valid, please try again!');
+      Alert.alert('Invalid login, try again!');
     }
   };
 
   // Handle a sign up
-  const handleSignUp = () => {
-    Alert.alert('Success', 'This is not implemented yet!');
+  const handleSignUp = async () => {
+    const existingEmail = await performSignUp(email);
+    
+    if (existingEmail) {
+      Alert.alert('Email already exists, try a different email!');
+    } else {
+      setEmail('');
+      setPassword('');
+      setSuccessfulSignUp('You can use this account to sign in!');
+    }
   };
 
   return (
     <SafeAreaView>
       <TextInput
+        autoCapitalize='none'
         keyboardType='default'
-        onChangeText={setUsername}
+        onChangeText={setEmail}
         style={styles.input}
-        value={username}
-        placeholder='Username'
+        value={email}
+        placeholder='Email'
       />
       <TextInput
+        autoCapitalize='none'
         keyboardType='default'
         onChangeText={setPassword}
         secureTextEntry={true}
@@ -47,6 +58,7 @@ const Login = () => {
       />
       <Button title="Log In" onPress={handleLogin} />
       <Button title="Sign Up" onPress={handleSignUp} />
+      {successfulSignUp && <Text style={styles.successMessage}>{successfulSignUp}</Text>}
     </SafeAreaView>
   );
 };
