@@ -25,11 +25,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: '100%',
-    marginBottom: 20,
+  button: {
+    backgroundColor: '#231651',
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: { 
+    color: 'white',
+    fontFamily: 'PlayfairDisplay_700Bold',
   },
   navbar: {
     flexDirection: 'row',

@@ -22,6 +22,10 @@ const SignUp = () => {
       setEmail("");
       setPassword("");
       navigation.navigate("Homepage");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Homepage' }],
+      });
     } catch (error) {
       console.error("Error signing up:", error.message);
     }
