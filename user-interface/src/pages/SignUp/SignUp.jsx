@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
+import {TouchableOpacity, View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import React from 'react';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../../services/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './SignUpStyles';
 
 const SignUp = () => {
@@ -55,13 +56,16 @@ const SignUp = () => {
 				secureTextEntry={true}
 				onChangeText={setPassword}
 			/>
+			<View style={styles.signUpContainer}>
+				<TouchableOpacity onPress={handleSignUp} style={styles.button}>
+					<Text style={styles.signUpButtonText}>Sign Up</Text>
+					<Ionicons name="arrow-forward" size={40} color="white" />
+				</TouchableOpacity>
+			</View>
 
-			<Button title='SignUp' onPress={handleSignUp} />
-
-			<View
-				style={{ flexDirection: 'row', marginTop: 100, alignItems: 'center' }}>
-				<Text>Already have an account?</Text>
-				<Button title='Sign in' onPress={NavSignIn} />
+			<View style={styles.existingAccountContainer}>
+				<Text style={styles.alreadyAccountText}>Already have an account?</Text>
+				<Button style={styles.alreadyAccountText} title='Sign in' onPress={NavSignIn} />
 			</View>
 		</View>
 	);

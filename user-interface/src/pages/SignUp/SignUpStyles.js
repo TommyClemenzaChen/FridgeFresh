@@ -61,9 +61,14 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontFamily: "PlayfairDisplay_800ExtraBold_Italic",
     },
+    signUpContainer: {
+        width: "80%",
+        alignItems: "center",
+        justifyContent: "center",
+    },
     button: {
-        width: '80%',
-        height: 50,
+        width: "60%",
+        height: 60,
         backgroundColor: '#FFD700', // Bright yellow button
         borderRadius: 25,
         justifyContent: 'center',
@@ -74,6 +79,21 @@ const styles = StyleSheet.create({
         color: '#FFFFFF', // White text color
         fontSize: 20,
         fontFamily: 'Arial',
+    },
+    signUpButtonText: {
+        color: 'black',
+        fontFamily: 'PlayfairDisplay_700Bold',
+        fontSize: 15,
+    }, 
+    existingAccountContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 100,
+    },
+    alreadyAccountText: {
+        fontSize: 16,
+        fontFamily: 'Verdana',
     },
 });
 

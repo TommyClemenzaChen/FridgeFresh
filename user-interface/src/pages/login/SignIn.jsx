@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../../services/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './SignInStyles';
 
 const SignUp = () => {
@@ -51,7 +52,13 @@ const SignUp = () => {
 				secureTextEntry={true}
 				onChangeText={setPassword}
 			/>
-			<Button title='Sign In' onPress={handleSignIn} />
+			<View style={styles.signInContainer}>
+				<TouchableOpacity onPress={handleSignIn} style={styles.button}>
+					<Text style={styles.signInButtonText}>Sign Up</Text>
+					<Ionicons name="arrow-forward" size={40} color="white" />
+				</TouchableOpacity>
+			</View>
+
 			<TouchableOpacity onPress={NavSignUp}>
 				<Text style={styles.link}>Don't have an account? Sign Up</Text>
 			</TouchableOpacity>
