@@ -17,6 +17,7 @@ const Homepage = () => {
 	});
 	const [modalVisible, setModalVisible] = useState(false);
 	const [isDatePickerShow, setIsDatePickerShow] = useState('');
+	const [activeButton, setActiveButton] = useState('');
 
 	// Subscribe to the user's sign-in state
 	useEffect(() => {
@@ -41,6 +42,7 @@ const Homepage = () => {
 
 	const showDatePicker = (field) => {
 		setIsDatePickerShow(field);
+		setActiveButton(field === 'expire_time_fridge' ? 'fridgeActive' : 'freezerActive');
 	};
 
 	const onDateChange = (selectedDate, field) => {
@@ -75,7 +77,7 @@ const Homepage = () => {
 	return (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 			<TouchableOpacity onPress={() => setModalVisible(true)} 
-				style={styles.button}
+				style={styles.newItemButton}
 			>
 				<Text style={styles.buttonText}>Add New Food Item</Text>
 			</TouchableOpacity>
@@ -108,9 +110,11 @@ const Homepage = () => {
 						onChangeText={(text) => handleInputChange('imageUri', text)}
 						style={styles.modalTypedInputs}
 					/>
-					<Button onPress={() => showDatePicker('expire_time_fridge')}
-						title='Set Fridge Expiry Date'
-					/>
+					<TouchableOpacity onPress={() => showDatePicker('expire_time_fridge')}
+						style={activeButton === 'fridgeActive' ? styles.pickerButtons : styles.inactiveButton}
+					>
+						<Text style={styles.buttonText}>Set Fridge Expiry Date</Text>
+					</TouchableOpacity>
 					{isDatePickerShow === 'expire_time_fridge' && (
 						<View style={styles.datePicker}>
 							<DateTimePicker
@@ -124,10 +128,11 @@ const Homepage = () => {
 							/>
 						</View>
 					)}
-					<Button
-						title='Set Freezer Expiry Date'
-						onPress={() => showDatePicker('expire_time_freezer')}
-					/>
+					<TouchableOpacity onPress={() => showDatePicker('expire_time_freezer')}
+						style={activeButton === 'freezerActive' ? styles.pickerButtons : styles.inactiveButton}
+					>
+						<Text style={styles.buttonText}>Set Freezer Expiry Date</Text>
+					</TouchableOpacity>
 					{isDatePickerShow === 'expire_time_freezer' && (
 						<View style={styles.datePicker}>
 							<DateTimePicker
@@ -141,8 +146,16 @@ const Homepage = () => {
 							/>
 						</View>
 					)}
-					<Button title='Submit Food Item' onPress={handleSubmit} />
-					<Button title='Close' onPress={() => setModalVisible(false)} />
+					<TouchableOpacity onPress={handleSubmit}
+						style={styles.closeButton}
+					>
+						<Text style={styles.buttonText}>Submit Food Item</Text>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={() => setModalVisible(false)}
+						style={styles.closeButton}
+					>
+						<Text style={styles.buttonText}>Close</Text>
+					</TouchableOpacity>
 				</View>
 			</Modal>
 		</View>
