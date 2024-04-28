@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: tommy-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: demo
+        image: gitlab-registry.nrp-nautilus.io/prp/jupyter-stack/prp-pytorch2:16ecc4c5
+        command:
+        - sh
+        - -c
+        - "cd /persistentvol && sudo chmod 777 . && python training.py"
+        volumeMounts:
+        - name: persistentvol
+          mountPath: /persistentvol
+        resources:
+          limits:
+            memory: 16Gi
+            cpu: "4"
+          requests:
+            memory: 8Gi
+            cpu: "2"
+      volumes:
+      - name: persistentvol
+        persistentVolumeClaim:
+          claimName: tommy-vol
+      restartPolicy: Never
+  backoffLimit: 5
