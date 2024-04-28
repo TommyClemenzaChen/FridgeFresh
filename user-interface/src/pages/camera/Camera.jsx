@@ -1,85 +1,76 @@
-import { Camera, CameraType } from 'expo-camera';
-import { useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, Button, Image } from "react-native";
+import { Camera } from "expo-camera";
 
-export default function CameraApp() {
-	const [type, setType] = useState(CameraType.back);
-	const [permission, requestPermission] = Camera.useCameraPermissions();
-	const [cameraRef, setCameraRef] = useState(null);
 
-	if (!permission) {
-		// Camera permissions are still loading
-		return <View />;
-	}
+export default function App() {
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
+  const [camera, setCamera] = useState(null);
+  const [image, setImage] = useState(null);
+  // useEffect(() => {
+  //     (async () => {
+  //       const cameraStatus = await Camera.requestPermissionsAsync();
+  //       setHasCameraPermission(cameraStatus.status === 'granted');
+  // })();
+  //   }, []);
+  const takePicture = async () => {
+    if (camera) {
+      const data = await camera.takePictureAsync(null);
+      setImage(data);
+    }
+  };
 
-	if (!permission.granted) {
-		// Camera permissions are not granted yet
-		return (
-			<View style={styles.container}>
-				<Text style={{ textAlign: 'center' }}>
-					We need your permission to show the camera
-				</Text>
-				<Button onPress={requestPermission} title='grant permission' />
-			</View>
-		);
-	}
+  const saveImage = async () => {
+    console.log("Saving Image");
+  }
 
-	function toggleCameraType() {
-		setType((current) =>
-			current === CameraType.back ? CameraType.front : CameraType.back
-		);
-	}
-	const takePicture = async () => {
-		if (cameraRef) {
-			let photo = await cameraRef.takePictureAsync();
-			console.log(photo); // You can handle the photo object as needed
-		}
-	};
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={styles.cameraContainer}>
+        <Camera
+          ref={(ref) => setCamera(ref)}
+          style={styles.fixedRatio}
+          ratio={"1:1"}
+        />
+      </View>
+      {image && <Image source={{ uri: image.uri }} style={{ flex: 1 }} />}
 
-	return (
-		<View style={styles.container}>
-			<Camera
-				style={styles.camera}
-				type={type}
-				ref={(ref) => setCameraRef(ref)}>
-				<View style={styles.buttonContainer}>
-					<TouchableOpacity style={styles.button} onPress={takePicture}>
-						<Text style={{ fontSize: 20, marginBottom: 10, color: 'white' }}>
-							Take Picture
-						</Text>
-					</TouchableOpacity>
-
-					<TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-						<Text style={styles.text}>Flip Camera</Text>
-					</TouchableOpacity>
-				</View>
-			</Camera>
-		</View>
-	);
+      <Button
+        style={styles.pictureButton}
+        title="Take Picture"
+        onPress={() => takePicture()}
+      />
+      {image && (
+        <Button
+          style={styles.saveImageButton}
+          title="Save Picture"
+          onPress={saveImage}
+        />
+      )}
+    </View>
+  );
 }
-
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-	},
-	camera: {
-		flex: 1,
-	},
-	buttonContainer: {
-		flex: 1,
-		flexDirection: 'row',
-		backgroundColor: 'transparent',
-		margin: 64,
-	},
-	button: {
-		flex: 1,
-		alignSelf: 'flex-end',
-		alignItems: 'center',
-	},
-	text: {
-		fontSize: 24,
-		fontWeight: 'bold',
-		color: 'white',
-	},
+  cameraContainer: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  fixedRatio: {
+    flex: 1,
+  },
+  saveImageButton: {
+    backgroundColor: "blue",
+    borderRadius: 5,
+    padding: 10,
+    margin: 40,
+    width: 100,
+    alignSelf: "center",
+  },
+  pictureButton: {
+    color: "green",
+    borderRadius: 5,
+    padding: 10,
+
+    alignSelf: "center",
+  },
 });
