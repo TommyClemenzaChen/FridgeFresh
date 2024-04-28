@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from './pages/login/Login';
-import Homepage from './homepage/Homepage';
+import Login from './src/pages/login/Login';
+import Homepage from './src/pages/homepage/Homepage';
 
 const Stack = createStackNavigator();
 
-const PageNavigator = () => { 
+const Navigator = () => { 
   return ( 
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Login'>
@@ -18,4 +18,4 @@ const PageNavigator = () => {
 
 };
 
-export default PageNavigator;
+export default Navigator;
