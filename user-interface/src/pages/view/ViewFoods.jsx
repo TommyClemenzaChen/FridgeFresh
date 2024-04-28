@@ -6,13 +6,13 @@ import {
 	getDocs,
 	query,
 	where,
+	auth,
+	db,
 } from 'firebase/firestore';
-import { app } from './firebase'; // make sure this path is correct
 
 const ViewFoods = ({ userUid }) => {
 	const [foods, setFoods] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const db = getFirestore(app);
 
 	useEffect(() => {
 		const fetchFoods = async () => {
