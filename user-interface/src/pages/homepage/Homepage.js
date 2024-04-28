@@ -7,6 +7,7 @@ import {
 	Platform,
 	TouchableOpacity,
 	Text,
+	Keyboard,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { collection, addDoc } from 'firebase/firestore';
@@ -51,6 +52,7 @@ const Homepage = () => {
 	};
 
 	const showDatePicker = (field) => {
+		Keyboard.dismiss(); // Dismiss the keyboard
 		setIsDatePickerShow(field);
 		setActiveButton(
 			field === 'expire_time_fridge' ? 'fridgeActive' : 'freezerActive'
@@ -127,6 +129,7 @@ const Homepage = () => {
 						placeholderTextColor='gray'
 						value={food.imageUri}
 						onChangeText={(text) => handleInputChange('imageUri', text)}
+						onSubmitEditing={Keyboard.dismiss}
 						style={styles.modalTypedInputs}
 					/>
 					<TouchableOpacity
