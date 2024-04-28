@@ -1,102 +1,58 @@
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-import React from "react";
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { auth } from "../../services/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../services/firebase';
+import signUpStyles from './SignUpStyles';
 
 const SignUp = () => {
-  const [email, setEmail] = useState("");
-
-  const [password, setPassword] = useState("");
-
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
   const handleSignUp = async () => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      console.log("User signed up:", user);
-      setEmail("");
-      setPassword("");
-      navigation.navigate("Homepage");
-
-      // Navigate to another screen or perform additional actions after successful sign-in
+      console.log('User signed up:', user);
+      setEmail('');
+      setPassword('');
+      navigation.navigate('Homepage');
     } catch (error) {
-      console.error("Error signing up:", error.message);
-      // Handle error (e.g., display error message to the user)
+      console.error('Error signing up:', error.message);
     }
   };
 
   const NavSignIn = () => {
-    console.warn("move to sign in page");
-    navigation.navigate("SignIn");
+    console.warn('Move to sign in page');
+    navigation.navigate('SignIn');
   };
 
   return (
-    <View style={styles.root}>
-      <Text style={{ fontSize: 25, fontFamily: "American Typewriter" }}>
-        {" "}
-        FridgeFresh
-      </Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        secureTextEntry={true}
-        onChangeText={setPassword}
-      />
-      
-      <Button title="SignUp" onPress={handleSignUp} />
-
-      <View
-        style={{ flexDirection: "row", marginTop: 100, alignItems: "center" }}
-      >
-        <Text>Already have an account?</Text>
-        <Button title="Sign in" onPress={NavSignIn} />
+    <View style={signUpStyles.container}>
+      <View style={signUpStyles.root}>
+        <Text style={signUpStyles.title}>FridgeFresh</Text>
+        <TextInput
+          style={signUpStyles.input}
+          placeholder="Enter your email"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <TextInput
+          style={signUpStyles.input}
+          placeholder="Password"
+          value={password}
+          secureTextEntry={true}
+          onChangeText={setPassword}
+        />
+        <Button title="Sign Up" onPress={handleSignUp} />
+        <View style={signUpStyles.linkContainer}>
+          <Text>Already have an account?</Text>
+          <Button title="Sign in" onPress={NavSignIn} />
+        </View>
       </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  root: {
-    alignItems: "center",
-    padding: 20,
-  },
-  logo: {
-    width: "70%",
-    maxWidth: 300,
-
-    height: 100,
-  },
-  text: {
-    color: "gray",
-    marginVertical: 10,
-  },
-  link: {
-    //darker yellow color
-    color: "#FFD700",
-  },
-  input: {
-    width: "100%",
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-});
 export default SignUp;

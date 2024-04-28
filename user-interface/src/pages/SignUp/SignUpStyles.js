@@ -4,6 +4,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF', // White background
+  },
+  root: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 20,
@@ -37,9 +40,14 @@ const styles = StyleSheet.create({
     color: '#FFFFFF', // White text color
     fontSize: 18,
   },
-  link: {
+  linkContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center', // Center items horizontally
+  },
+  linkText: {
     color: '#2374AB', // Darker turquoise color
-    marginTop: 10,
+    marginLeft: 5,
   },
 });
 

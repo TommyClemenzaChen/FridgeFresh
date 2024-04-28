@@ -1,15 +1,13 @@
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { auth } from "../../services/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import styles from "./LoginStyles";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
-
   const [password, setPassword] = useState("");
-
   const navigation = useNavigation();
 
   const handleSignIn = async () => {
@@ -24,11 +22,8 @@ const SignUp = () => {
       setEmail("");
       setPassword("");
       navigation.navigate("Homepage");
-
-      // Navigate to another screen or perform additional actions after successful sign-in
     } catch (error) {
       console.error("Error signing up:", error.message);
-      // Handle error (e.g., display error message to the user)
     }
   };
 
@@ -38,15 +33,11 @@ const SignUp = () => {
   };
 
   return (
-    <View style={styles.root}>
-      <Text style={{ fontSize: 25, fontFamily: "American Typewriter" }}>
-        {" "}
-        FridgeFresh
-      </Text>
-
+    <View style={styles.container}>
+      <Text style={styles.title}>FridgeFresh</Text>
       <TextInput
         style={styles.input}
-        placeholder="Enter your email"
+        placeholder="Email"
         value={email}
         onChangeText={setEmail}
       />
@@ -57,46 +48,12 @@ const SignUp = () => {
         secureTextEntry={true}
         onChangeText={setPassword}
       />
-
-      <Button title="SignIn" onPress={handleSignIn} />
-
-      <View
-        style={{ flexDirection: "row", marginTop: 100, alignItems: "center" }}
-      >
-        <Text>Already have an account?</Text>
-        <Button title="Sign up" onPress={NavSignUp} />
-      </View>
+      <Button title="Sign In" onPress={handleSignIn} />
+      <TouchableOpacity onPress={NavSignUp}>
+        <Text style={styles.link}>Don't have an account? Sign Up</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  root: {
-    alignItems: "center",
-    padding: 20,
-  },
-  logo: {
-    width: "70%",
-    maxWidth: 300,
-
-    height: 100,
-  },
-  text: {
-    color: "gray",
-    marginVertical: 10,
-  },
-  link: {
-    //darker yellow color
-    color: "#FFD700",
-  },
-  input: {
-    width: "100%",
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-});
 export default SignUp;
