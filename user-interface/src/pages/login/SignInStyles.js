@@ -1,33 +1,56 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-   root: {
-     alignItems: "center",
-     padding: 20,
-   },
-   logo: {
-     width: "70%",
-     maxWidth: 300,
- 
-     height: 100,
-   },
-   text: {
-     color: "gray",
-     marginVertical: 10,
-   },
-   link: {
-     //darker yellow color
-     color: "#FFD700",
-   },
-   input: {
-     width: "100%",
-     height: 40,
-     borderWidth: 1,
-     borderColor: "#ccc",
-     borderRadius: 5,
-     marginBottom: 10,
-     paddingHorizontal: 10,
-   },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4DCCBD', // Light turquoise background
+    borderRadius: 30,
+    padding: 20,
+  },
+  title: {
+    fontSize: 30,
+    fontFamily: 'PlayfairDisplay_800ExtraBold_Italic',
+    marginBottom: 20,
+    color: '#FFFFFF', // White text color
+    // Apply gradient background to text
+    backgroundColor: 'transparent',
+    backgroundImage: 'linear-gradient(90deg, #FFD700 0%, #F0E68C 100%)', // Bright gradient
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+  },
+  input: {
+    width: '80%',
+    height: 50,
+    borderWidth: 2,
+    borderColor: '#FFFFFF', // White border
+    borderRadius: 25,
+    marginBottom: 20,
+    paddingHorizontal: 20,
+    backgroundColor: '#FFFFFF', // White background
+    color: '#000000', // Black text color
+    fontSize: 18,
+  },
+  button: {
+    width: '80%',
+    height: 50,
+    backgroundColor: '#FFD700', // Bright yellow button
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  buttonText: {
+    color: '#FFFFFF', // White text color
+    fontSize: 20,
+    fontFamily: 'Arial',
+  },
+  link: {
+    color: '#FFFFFF', // White text color
+    fontSize: 16,
+    textDecorationLine: 'underline',
+  },
 });
 
 export default styles;
