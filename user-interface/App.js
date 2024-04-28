@@ -4,7 +4,11 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
 const App = () => {
-  return <Navigator />;
+  return ( 
+    <View style={styles.container}>
+      <Navigator />
+    </View>
+  )
 };
 
 export default App;
