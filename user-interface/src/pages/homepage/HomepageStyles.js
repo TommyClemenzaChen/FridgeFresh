@@ -1,4 +1,3 @@
-// HomepageStyles.js
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -15,34 +14,39 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: '#16ADB9', // Turquoise cyan color
   },
   subtitle: {
     fontSize: 18,
     marginBottom: 20,
+    color: '#16ADB9', // Turquoise cyan color
   },
   description: {
     fontSize: 16,
     textAlign: 'center',
     marginBottom: 20,
+    color: '#16ADB9', // Turquoise cyan color
   },
   helpButtonContainer: {
     position: 'absolute',
     top: 50, // Adjust the top margin as needed
     right: 20, // Adjust the right margin as needed
- },
+  },
   helpButton: {
-    backgroundColor: 'red', // Red background
+    backgroundColor: '#FFDD66', // Yellow background
     borderRadius: 25, // Rounded corners
     padding: 10, // Padding around the text
     justifyContent: 'center', // Center the text vertically
     alignItems: 'center',
   },
   newItemButton: {
-    backgroundColor: '#231651',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: '#16ADB9', // Turquoise cyan background
+    width: 75, // Adjust button width
+    height: 75, // Adjust button height
+    borderRadius: 50, // Make it circular
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center', // Center the button horizontally
   },
   inactiveButton: {
     backgroundColor: 'white', // White background
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pickerButtons: {
-    backgroundColor: '#4DCCBD',
+    backgroundColor: '#FFDD66', // Yellow background
     padding: 10,
     width: '60%',
     left: '20%',
@@ -63,17 +67,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 15,
     alignItems: 'center',
-    shadowColor: '#231651', // Shadow color
+    shadowColor: '#16ADB9', // Turquoise cyan shadow color
     shadowOffset: { width: 0, height: 2 }, // Shadow offset
     shadowOpacity: 0.25,
     shadowRadius: 4.00,
     elevation: 5,
-    backgroundImage: 'linear-gradient(90deg, #FFD700 0%, #F0E68C 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
   },
   closeButton: {
-    backgroundColor: 'aqua',
+    backgroundColor: '#16ADB9', // Turquoise cyan background
     padding: 10,
     width: '60%',
     left: '20%',
@@ -83,8 +84,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: { 
-    color: '#2374AB',
+    color: 'white', // White text color
     fontFamily: 'PlayfairDisplay_700Bold',
+    fontSize: 25,
   },
   dateSelectors: {
     flexDirection: 'row',
@@ -95,8 +97,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-    paddingVertical: 10,
+    backgroundColor: '#FFFFFF', // White background
+    paddingVertical: 30,
   },
   // Styles for the modal
   datePicker: {
@@ -108,7 +110,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: '#4DCCBD',
+    backgroundColor: '#FFFFFF', // White background
     padding: 70,
     paddingTop: 60,
     borderRadius: 10,
@@ -118,6 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: '#16ADB9', // Turquoise cyan color
   },
   input: {
     borderWidth: 1,
@@ -142,8 +145,24 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 20,
     backgroundColor: "#FFFFFF", // White background
-    color: "#000000", // Black text color
+    color: "#16ADB9", // Turquoise cyan text color
     fontSize: 18,
+  },
+  bottomContainer: {
+    position: 'absolute',
+    bottom: 20, // Adjust the bottom margin as needed
+    flexDirection: 'row',
+    justifyContent: 'center', // Center the buttons horizontally
+    width: '100%',
+  },
+  cameraButton: {
+    backgroundColor: '#FFDD66', // Yellow background
+    width: 75, // Adjust button width
+    height: 75, // Adjust button height
+    borderRadius: 50, // Make it circular
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 20, // Add margin between buttons
   },
 });
 
