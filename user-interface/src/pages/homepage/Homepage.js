@@ -3,12 +3,12 @@ import { Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { View, Text } from 'react-native';
 
-const Login = () => {
+const Homepage = () => {
     const navigation = useNavigation();
 
     return (
-    <Button title="Login" onPress={() => navigation.navigate("Homepage")} />
+    <Button title="Homepage" onPress={() => navigation.navigate("Login")} />
     );
 };
 
-export default Login;
+export default Homepage;
