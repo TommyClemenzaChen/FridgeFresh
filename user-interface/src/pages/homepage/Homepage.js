@@ -7,7 +7,7 @@ const Homepage = () => {
     const navigation = useNavigation();
 
     return (
-    <Button title="Homepage" onPress={() => navigation.navigate("Login")} />
+    <Button title="Homepage" onPress={() => navigation.navigate("SignIn")} />
     );
 };
 
