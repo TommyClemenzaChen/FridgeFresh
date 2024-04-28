@@ -90,7 +90,7 @@ const Homepage = () => {
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 			<View style={styles.helpButtonContainer}>
 				<TouchableOpacity
-					onPress={() => navigation.navigate('Help Page')}
+					onPress={() => navigation.navigate('Helppage')}
 					style={styles.helpButton}>
 					<Text style={styles.buttonText}>Help</Text>
 				</TouchableOpacity>
