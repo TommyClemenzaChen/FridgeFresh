@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Button, View, TextInput, Modal, Platform, TouchableOpacity, Text } from 'react-native';
+import {
+	Button,
+	View,
+	TextInput,
+	Modal,
+	Platform,
+	TouchableOpacity,
+	Text,
+} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { collection, addDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { db } from './firebase';
 import styles from './HomepageStyles';
+import { useNavigation } from '@react-navigation/native';
 
 const Homepage = () => {
+	const navigation = useNavigation();
 	const [currentUser, setCurrentUser] = useState(null); // State to hold the logged-in user
 	const [food, setFood] = useState({
 		name: '',
@@ -42,7 +52,9 @@ const Homepage = () => {
 
 	const showDatePicker = (field) => {
 		setIsDatePickerShow(field);
-		setActiveButton(field === 'expire_time_fridge' ? 'fridgeActive' : 'freezerActive');
+		setActiveButton(
+			field === 'expire_time_fridge' ? 'fridgeActive' : 'freezerActive'
+		);
 	};
 
 	const onDateChange = (selectedDate, field) => {
@@ -77,15 +89,15 @@ const Homepage = () => {
 	return (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 			<View style={styles.helpButtonContainer}>
-				<TouchableOpacity onPress={() => navigation.navigate('Helppage')}
-					style={styles.helpButton}
-				>
+				<TouchableOpacity
+					onPress={() => navigation.navigate('Help Page')}
+					style={styles.helpButton}>
 					<Text style={styles.buttonText}>Help</Text>
-      			</TouchableOpacity>
+				</TouchableOpacity>
 			</View>
-			<TouchableOpacity onPress={() => setModalVisible(true)} 
-				style={styles.newItemButton}
-			>
+			<TouchableOpacity
+				onPress={() => setModalVisible(true)}
+				style={styles.newItemButton}>
 				<Text style={styles.buttonText}>Add New Food Item</Text>
 			</TouchableOpacity>
 
@@ -117,9 +129,13 @@ const Homepage = () => {
 						onChangeText={(text) => handleInputChange('imageUri', text)}
 						style={styles.modalTypedInputs}
 					/>
-					<TouchableOpacity onPress={() => showDatePicker('expire_time_fridge')}
-						style={activeButton === 'fridgeActive' ? styles.pickerButtons : styles.inactiveButton}
-					>
+					<TouchableOpacity
+						onPress={() => showDatePicker('expire_time_fridge')}
+						style={
+							activeButton === 'fridgeActive'
+								? styles.pickerButtons
+								: styles.inactiveButton
+						}>
 						<Text style={styles.buttonText}>Set Fridge Expiry Date</Text>
 					</TouchableOpacity>
 					{isDatePickerShow === 'expire_time_fridge' && (
@@ -135,9 +151,13 @@ const Homepage = () => {
 							/>
 						</View>
 					)}
-					<TouchableOpacity onPress={() => showDatePicker('expire_time_freezer')}
-						style={activeButton === 'freezerActive' ? styles.pickerButtons : styles.inactiveButton}
-					>
+					<TouchableOpacity
+						onPress={() => showDatePicker('expire_time_freezer')}
+						style={
+							activeButton === 'freezerActive'
+								? styles.pickerButtons
+								: styles.inactiveButton
+						}>
 						<Text style={styles.buttonText}>Set Freezer Expiry Date</Text>
 					</TouchableOpacity>
 					{isDatePickerShow === 'expire_time_freezer' && (
@@ -153,14 +173,12 @@ const Homepage = () => {
 							/>
 						</View>
 					)}
-					<TouchableOpacity onPress={handleSubmit}
-						style={styles.closeButton}
-					>
+					<TouchableOpacity onPress={handleSubmit} style={styles.closeButton}>
 						<Text style={styles.buttonText}>Submit Food Item</Text>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => setModalVisible(false)}
-						style={styles.closeButton}
-					>
+					<TouchableOpacity
+						onPress={() => setModalVisible(false)}
+						style={styles.closeButton}>
 						<Text style={styles.buttonText}>Close</Text>
 					</TouchableOpacity>
 				</View>
