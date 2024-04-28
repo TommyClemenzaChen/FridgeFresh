@@ -15,7 +15,7 @@ const auth = initializeAuth(firebaseApp, {
 	persistence: getReactNativePersistence(AsyncStorage),
 });
 
-export default function App() {
+export default function CameraApp() {
 	const [hasCameraPermission, setHasCameraPermission] = useState(null);
 	const [camera, setCamera] = useState(null);
 	const [image, setImage] = useState(null);
