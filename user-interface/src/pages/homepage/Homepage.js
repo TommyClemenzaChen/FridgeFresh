@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Button, View, TextInput, Modal, Platform } from 'react-native';
+import { Button, View, TextInput, Modal, Platform, TouchableOpacity, Text } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { collection, addDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { db } from './firebase';
+import styles from './HomepageStyles';
 
 const Homepage = () => {
 	const [currentUser, setCurrentUser] = useState(null); // State to hold the logged-in user
@@ -73,7 +74,11 @@ const Homepage = () => {
 
 	return (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-			<Button title='Add New Food Item' onPress={() => setModalVisible(true)} />
+			<TouchableOpacity onPress={() => setModalVisible(true)} 
+				style={styles.button}
+			>
+				<Text style={styles.buttonText}>Add New Food Item</Text>
+			</TouchableOpacity>
 
 			<Modal
 				animationType='slide'

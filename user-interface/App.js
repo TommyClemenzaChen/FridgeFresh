@@ -2,11 +2,12 @@ import React from 'react';
 import Navigator from './Navigator';
 import { useFonts } from "expo-font";
 import { StyleSheet, Text, View } from "react-native";
-import { PlayfairDisplay_800ExtraBold_Italic } from "@expo-google-fonts/playfair-display";
+import { PlayfairDisplay_800ExtraBold_Italic, PlayfairDisplay_700Bold } from "@expo-google-fonts/playfair-display";
 
 const App = () => {
   const [fontsLoaded] = useFonts({
     PlayfairDisplay_800ExtraBold_Italic,
+    PlayfairDisplay_700Bold,
   });
   if (!fontsLoaded) {
     return <Text>Loading...</Text>;
