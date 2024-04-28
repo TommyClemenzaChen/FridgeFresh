@@ -1,100 +1,136 @@
-import React, { useState } from 'react';
-import { Button, View, TextInput, Modal } from 'react-native';
-import { collection, addDoc, doc, serverTimestamp, getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import React, { useState, useEffect } from 'react';
+import { Button, View, TextInput, Modal, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { collection, addDoc } from 'firebase/firestore';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { db } from './firebase';
 
 const Homepage = () => {
-  // Firebase setup
-  const db = getFirestore();
-  const auth = getAuth();
-  const user = auth.currentUser; // Get the currently signed-in user
+	const [currentUser, setCurrentUser] = useState(null); // State to hold the logged-in user
+	const [food, setFood] = useState({
+		name: '',
+		calories: '',
+		imageUri: '',
+		expire_time_fridge: new Date(),
+		expire_time_freezer: new Date(),
+	});
+	const [modalVisible, setModalVisible] = useState(false);
+	const [isDatePickerShow, setIsDatePickerShow] = useState('');
 
-  // State for food details
-  const [food, setFood] = useState({
-    name: '',
-    expire_time_fridge: '',
-    expire_time_freezer: '',
-    calories: '',
-    imageUri: '',
-  });
-  // State for controlling the visibility of the modal
-  const [modalVisible, setModalVisible] = useState(false);
+	// Subscribe to the user's sign-in state
+	useEffect(() => {
+		const auth = getAuth();
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			if (user) {
+				// User is signed in
+				setCurrentUser(user);
+			} else {
+				// User is signed out
+				setCurrentUser(null);
+			}
+		});
 
-  // Handle form input changes
-  const handleInputChange = (name, value) => {
-    setFood({ ...food, [name]: value });
-  };
+		// Cleanup subscription on unmount
+		return unsubscribe;
+	}, []);
 
-  // Handle the submission of the food form
-  const handleSubmit = async () => {
-    if (!user) {
-      console.error('No user is signed in.');
-      return;
-    }
+	const handleInputChange = (name, value) => {
+		setFood({ ...food, [name]: value });
+	};
 
-    try {
-      // Reference to the 'foods' subcollection in the user's document
-      const foodsColRef = collection(db, 'users', user.uid, 'foods');
+	const showDatePicker = (field) => {
+		setIsDatePickerShow(field);
+	};
 
-      await addDoc(foodsColRef, {
-        ...food,
-        expire_time_fridge: serverTimestamp(),
-        expire_time_freezer: serverTimestamp(),
-        calories: parseInt(food.calories, 10),
-      });
+	const onDateChange = (selectedDate, field) => {
+		setIsDatePickerShow(Platform.OS === 'ios' ? field : '');
+		if (selectedDate) {
+			setFood({ ...food, [field]: selectedDate });
+		}
+	};
 
-      console.log('Food item added to the user\'s collection!');
-      setModalVisible(false); // Close the modal upon success
-    } catch (error) {
-      console.error('Error adding food item to the user\'s collection:', error);
-    }
-  };
+	const handleSubmit = async () => {
+		if (!currentUser) {
+			console.error('No user is signed in.');
+			return;
+		}
 
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      {/* Button to trigger the modal */}
-      <Button title='Add New Food Item' onPress={() => setModalVisible(true)} />
-      
-      {/* Modal for adding a new food item */}
-      <Modal
-        animationType='slide'
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(!modalVisible)}
-      >
-        <View style={{ marginTop: 50, padding: 20, backgroundColor: 'white' }}>
-          <TextInput
-            placeholder='Food Name'
-            value={food.name}
-            onChangeText={(text) => handleInputChange('name', text)}
-          />
-          <TextInput
-            placeholder='Expiration Date (Fridge)'
-            value={food.expire_time_fridge}
-            onChangeText={(text) => handleInputChange('expire_time_fridge', text)}
-          />
-          <TextInput
-            placeholder='Expiration Date (Freezer)'
-            value={food.expire_time_freezer}
-            onChangeText={(text) => handleInputChange('expire_time_freezer', text)}
-          />
-          <TextInput
-            placeholder='Calories'
-            keyboardType='numeric'
-            value={food.calories}
-            onChangeText={(text) => handleInputChange('calories', text)}
-          />
-          <TextInput
-            placeholder='Image URI'
-            value={food.imageUri}
-            onChangeText={(text) => handleInputChange('imageUri', text)}
-          />
-          <Button title='Submit Food Item' onPress={handleSubmit} />
-          <Button title='Close' onPress={() => setModalVisible(false)} />
-        </View>
-      </Modal>
-    </View>
-  );
+		try {
+			const foodsColRef = collection(db, 'users', currentUser.uid, 'foods');
+			await addDoc(foodsColRef, {
+				...food,
+				expire_time_fridge: food.expire_time_fridge,
+				expire_time_freezer: food.expire_time_freezer,
+				calories: parseInt(food.calories, 10),
+			});
+
+			console.log("Food item added to the user's collection!");
+			setModalVisible(false); // Close the modal on success
+		} catch (error) {
+			console.error('Error adding food item:', error);
+		}
+	};
+
+	return (
+		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+			<Button title='Add New Food Item' onPress={() => setModalVisible(true)} />
+
+			<Modal
+				animationType='slide'
+				transparent={true}
+				visible={modalVisible}
+				onRequestClose={() => setModalVisible(!modalVisible)}>
+				<View style={{ marginTop: 50, padding: 20, backgroundColor: 'white' }}>
+					<TextInput
+						placeholder='Food Name'
+						value={food.name}
+						onChangeText={(text) => handleInputChange('name', text)}
+					/>
+					<TextInput
+						placeholder='Calories'
+						keyboardType='numeric'
+						value={food.calories}
+						onChangeText={(text) => handleInputChange('calories', text)}
+					/>
+					<TextInput
+						placeholder='Image URI'
+						value={food.imageUri}
+						onChangeText={(text) => handleInputChange('imageUri', text)}
+					/>
+					<Button
+						title='Set Fridge Expiry Date'
+						onPress={() => showDatePicker('expire_time_fridge')}
+					/>
+					{isDatePickerShow === 'expire_time_fridge' && (
+						<DateTimePicker
+							value={food.expire_time_fridge}
+							mode='date'
+							display='default'
+							onChange={(event, date) =>
+								onDateChange(date, 'expire_time_fridge')
+							}
+						/>
+					)}
+					<Button
+						title='Set Freezer Expiry Date'
+						onPress={() => showDatePicker('expire_time_freezer')}
+					/>
+					{isDatePickerShow === 'expire_time_freezer' && (
+						<DateTimePicker
+							value={food.expire_time_freezer}
+							mode='date'
+							display='default'
+							onChange={(event, date) =>
+								onDateChange(date, 'expire_time_freezer')
+							}
+						/>
+					)}
+					<Button title='Submit Food Item' onPress={handleSubmit} />
+					<Button title='Close' onPress={() => setModalVisible(false)} />
+				</View>
+			</Modal>
+		</View>
+	);
 };
 
 export default Homepage;
